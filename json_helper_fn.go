@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"log"
 )
 
 func RespondWithJson(w http.ResponseWriter, status int, payload interface{}) {
@@ -16,5 +17,13 @@ func RespondWithJson(w http.ResponseWriter, status int, payload interface{}) {
 }
 
 func RespondWithError(w http.ResponseWriter, code int, msg string) {
-	http.Error(w,msg,code)
+	if code > 499 {
+		log.Printf("Responding with 5XX error: %s", msg)
+	}
+	type errorResponse struct {
+		Error string `json:"error"`
+	}
+	RespondWithJson(w, code, errorResponse{
+		Error: msg,
+	})
 }
