@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
 	"log"
+	"net/http"
 )
 
 func RespondWithJson(w http.ResponseWriter, status int, payload interface{}) {
@@ -27,3 +27,4 @@ func RespondWithError(w http.ResponseWriter, code int, msg string) {
 		Error: msg,
 	})
 }
+
