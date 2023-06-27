@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"time"
-
 	"github.com/google/uuid"
 	"github.com/krishnanshagarwal112/rss-aggregator/internal/database"
 )
@@ -47,3 +47,18 @@ func userPost(w http.ResponseWriter, r *http.Request, apiCfg *apiConfig) {
 	// the func databaseUserToUser converts the user returned by the DB.CreateUser() to a struct with json tags !
 }
 
+
+func userGet(w http.ResponseWriter, r *http.Request, apiCfg *apiConfig){
+	authorizationString := r.Header.Get("Authorization")
+	apiKey := strings.TrimPrefix(authorizationString, "ApiKey ")
+
+	user,err := apiCfg.DB.GetUserByAPIKey(r.Context(),apiKey)
+
+	if err != nil{
+		RespondWithError(w,http.StatusBadRequest,"no user found")
+		return
+	}
+
+	RespondWithJson(w,200,databaseUserToUser(user))
+
+}
