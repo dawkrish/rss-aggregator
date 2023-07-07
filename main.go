@@ -44,7 +44,7 @@ func main() {
 	v1Router := chi.NewRouter()
 
 	srv := http.Server{
-		Addr:    ":" + port,
+		Addr:    "localhost:" + port,
 		Handler: router,
 	}
 
@@ -66,6 +66,9 @@ func main() {
 		userPost(w,r,&apiCfg)
 	})
 
+	v1Router.Get("/users",apiCfg.middlewareAuth(apiCfg.userGet))
+	v1Router.Post("/feeds",apiCfg.middlewareAuth(apiCfg.feedPost))
+	v1Router.Get("/feeds",apiCfg.feedGet)
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(srv.ListenAndServe())
 }
