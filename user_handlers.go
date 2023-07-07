@@ -43,7 +43,7 @@ func userPost(w http.ResponseWriter, r *http.Request, apiCfg *apiConfig) {
 
 	// Second is to respond with json 
 	RespondWithJson(w,200,databaseUserToUser(user))
-	// the func databaseUserToUser converts the user returned by the DB.CreateUser() to a struct with json tags !
+	// the func databaseUserToUser converts the user returned by the DB.CreateUser() to a struct with json tags 
 }
 
 
